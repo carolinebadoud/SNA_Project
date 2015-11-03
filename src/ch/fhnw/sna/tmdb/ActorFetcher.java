@@ -14,13 +14,15 @@ public class ActorFetcher {
 	
     public static void main(String[] args) throws Exception{
 
-        URL url = new URL("http://api.themoviedb.org/3/person/popular?api_key=5164b6e30308365338b5f33533bd23d8");
+     List<Actor> actors = new ArrayList<Actor>();
+     for(int i = 1; i<=40; i++){
+    	URL url = new URL("http://api.themoviedb.org/3/person/popular?page=" + i + "&api_key=5164b6e30308365338b5f33533bd23d8");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setDoOutput(true);
         con.setRequestMethod("GET");
         con.setRequestProperty("Content-Type", "application/json");
         JsonReader reader = new JsonReader(new InputStreamReader((con.getInputStream())));
-        List<Actor> actors = new ArrayList<Actor>();
+
         
         try {          
           reader.beginObject();
@@ -43,9 +45,11 @@ public class ActorFetcher {
             {
                 System.out.println(act.name);
             }
+            System.out.println(actors.size());
           }
         } finally {
           reader.close();
         }      
       }
+    }
 }
